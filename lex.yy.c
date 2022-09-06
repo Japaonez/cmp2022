@@ -478,8 +478,9 @@ char *yytext;
 #line 1 "calc.l"
 #line 2 "calc.l"
 	#include <stdio.h>
-#line 482 "lex.yy.c"
+	#include "calc.tab.h"
 #line 483 "lex.yy.c"
+#line 484 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -696,10 +697,10 @@ YY_DECL
 		}
 
 	{
-#line 10 "calc.l"
+#line 11 "calc.l"
 
 
-#line 703 "lex.yy.c"
+#line 704 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -768,76 +769,76 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 12 "calc.l"
-{ printf("TOK_PRINTA\n"); }
+#line 13 "calc.l"
+{ return TOK_PRINTA; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 14 "calc.l"
-{ printf("TOK_IGUAL\n"); }
+#line 15 "calc.l"
+{ return '='; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 15 "calc.l"
-{ printf("TOK_MULTI\n"); }
+#line 16 "calc.l"
+{ return '*'; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 16 "calc.l"
-{ printf("TOK_MAIS\n"); }
+#line 17 "calc.l"
+{ return '+'; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 17 "calc.l"
-{ printf("TOK_MENOS\n"); }
+#line 18 "calc.l"
+{ return '-'; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 18 "calc.l"
-{ printf("TOK_DIVIDIR\n"); }
+#line 19 "calc.l"
+{ return '/'; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 19 "calc.l"
-{ printf("TOK_ABREPAR\n"); }
+#line 20 "calc.l"
+{ return '('; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 20 "calc.l"
-{ printf("TOK_FECHPAR\n"); }
+#line 21 "calc.l"
+{ return ')'; }
 	YY_BREAK
 case 9:
 /* rule 9 can match eol */
 YY_RULE_SETUP
-#line 22 "calc.l"
+#line 23 "calc.l"
 {  }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 23 "calc.l"
-{ printf("TOK_INTEIRO<%s>\n", yytext); }
+#line 24 "calc.l"
+{ return TOK_INTEIRO; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 24 "calc.l"
-{ printf("TOK_REAL<%s>\n", yytext); }
+#line 25 "calc.l"
+{ return TOK_REAL; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 25 "calc.l"
-{ printf("TOK_LETRA<%s>\n", yytext); }
+#line 26 "calc.l"
+{ return TOK_LETRA; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 27 "calc.l"
+#line 28 "calc.l"
 { printf("TOK_ESSE_SIMBOLO_NAO_PODE\n"); }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 29 "calc.l"
+#line 30 "calc.l"
 ECHO;
 	YY_BREAK
-#line 841 "lex.yy.c"
+#line 842 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1854,7 +1855,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 29 "calc.l"
+#line 30 "calc.l"
 
 
 int yywrap(){
@@ -1871,7 +1872,7 @@ int main(int argc, char *argv[]){
 	//passar o arquivo que quero que compila
 	yyin = f;
 	//compila
-	yylex();
+	yyparse();
 	fclose(f);
 	
 	return 0;

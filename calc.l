@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include "calc.tab.h"
 %}
 
 %option yylineno
@@ -9,20 +10,20 @@ L	[a-zA-Z_]
 
 %%
 
-"print"			{ printf("TOK_PRINTA\n"); }
+"print"			{ return TOK_PRINTA; }
 
-"="				{ printf("TOK_IGUAL\n"); }
-"*"				{ printf("TOK_MULTI\n"); }
-"+"				{ printf("TOK_MAIS\n"); }
-"-"				{ printf("TOK_MENOS\n"); }
-"/"				{ printf("TOK_DIVIDIR\n"); }
-"("				{ printf("TOK_ABREPAR\n"); }
-")"				{ printf("TOK_FECHPAR\n"); }
+"="				{ return '='; }
+"*"				{ return '*'; }
+"+"				{ return '+'; }
+"-"				{ return '-'; }
+"/"				{ return '/'; }
+"("				{ return '('; }
+")"				{ return ')'; }
 
 [ \t\n\r]       {  }
-[0-9]+			{ printf("TOK_INTEIRO<%s>\n", yytext); }
-{N}+\.{N}+		{ printf("TOK_REAL<%s>\n", yytext); }
-{L}({L}|{N})*	{ printf("TOK_LETRA<%s>\n", yytext); }
+[0-9]+			{ return TOK_INTEIRO; }
+{N}+\.{N}+		{ return TOK_REAL; }
+{L}({L}|{N})*	{ return TOK_LETRA; }
 
 .				{ printf("TOK_ESSE_SIMBOLO_NAO_PODE\n"); }
 
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]){
 	//passar o arquivo que quero que compila
 	yyin = f;
 	//compila
-	yylex();
+	yyparse();
 	fclose(f);
 	
 	return 0;
