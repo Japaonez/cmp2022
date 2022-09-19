@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 
+#include "header.h"
+
 int yyerror(const char *s);
 int yylex(void);
 
@@ -9,7 +11,7 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINTA TOK_IDENT TOK_INTEIRO TOK_REAL TOK_LETRA
+%token TOK_PRINTA TOK_IDENT TOK_INTEIRO TOK_REAL //TOK_LETRA
 %start program
 
 %%

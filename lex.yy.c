@@ -1876,7 +1876,7 @@ int main(int argc, char *argv[]){
 	}
 	
 	FILE *f = fopen(argv[1], "r");
-	//passar o arquivo que quero que compila
+	//passar o arquivo alvo para compilar
 	yyin = f;
 	//compila
 	yyparse();

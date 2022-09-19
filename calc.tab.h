@@ -52,8 +52,7 @@ extern int yydebug;
     TOK_PRINTA = 258,
     TOK_IDENT = 259,
     TOK_INTEIRO = 260,
-    TOK_REAL = 261,
-    TOK_LETRA = 262
+    TOK_REAL = 261
   };
 #endif
 
