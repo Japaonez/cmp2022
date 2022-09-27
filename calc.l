@@ -1,5 +1,6 @@
 %{
 	#include <stdio.h>
+	#include "header.h"
 	#include "calc.tab.h"
 %}
 
@@ -10,7 +11,7 @@ L	[a-zA-Z_]
 
 %%
 
-"print"			{ return TOK_PRINTA; }
+"print"			{ printf("%s", strndup(yytext, yyleng)); return TOK_PRINT; }
 
 "="				{ return '='; }
 "*"				{ return '*'; }
@@ -22,9 +23,9 @@ L	[a-zA-Z_]
 "^"				{ return '^'; }
 
 [ \t\n\r]       {  }
-[0-9]+			{ return TOK_INTEIRO; }
-{N}+\.{N}+		{ return TOK_REAL; }
-{L}({L}|{N})*	{ return TOK_IDENT; }
+[0-9]+			{ yylval.args.intv = atoi(yytext); return TOK_INTEGER; }
+{N}+\.{N}+		{ yylval.args.dblv = atof(yytext); return TOK_FLOAT; }
+{L}({L}|{N})*	{ yylval.args.ident = strndup(yytext, yyleng); return TOK_IDENT; }
 
 .				{ printf("TOK_ESSE_SIMBOLO_NAO_PODE\n"); }
 

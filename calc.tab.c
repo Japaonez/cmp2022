@@ -125,10 +125,10 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TOK_PRINTA = 258,
+    TOK_PRINT = 258,
     TOK_IDENT = 259,
-    TOK_INTEIRO = 260,
-    TOK_REAL = 261
+    TOK_INTEGER = 260,
+    TOK_FLOAT = 261
   };
 #endif
 
@@ -138,9 +138,10 @@ union YYSTYPE
 {
 #line 12 "calc.y"
 
+	token_args args;
 	struct noh *no;
 
-#line 144 "calc.tab.c"
+#line 145 "calc.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -516,8 +517,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    25,    25,    36,    37,    40,    41,    44,    47,    48,
-      49,    52,    53,    54,    57,    58,    61,    62,    63,    64
+       0,    27,    27,    38,    39,    42,    43,    46,    49,    50,
+      51,    54,    55,    56,    59,    60,    63,    64,    65,    66
 };
 #endif
 
@@ -526,8 +527,8 @@ static const yytype_int8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "TOK_PRINTA", "TOK_IDENT", "TOK_INTEIRO",
-  "TOK_REAL", "'='", "'+'", "'-'", "'*'", "'/'", "'^'", "'('", "')'",
+  "$end", "error", "$undefined", "TOK_PRINT", "TOK_IDENT", "TOK_INTEGER",
+  "TOK_FLOAT", "'='", "'+'", "'-'", "'*'", "'/'", "'^'", "'('", "')'",
   "$accept", "program", "stmts", "stmt", "atribuicao", "aritmetica",
   "termo", "termo2", "fator", YY_NULLPTR
 };
@@ -1320,7 +1321,7 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 25 "calc.y"
+#line 27 "calc.y"
                 { 
 					noh *program = create_noh(PROGRAM, 1); program->children[0] = (yyvsp[0].no);
 
@@ -1330,113 +1331,113 @@ yyreduce:
 					//chamada da verificação semântica
 					//chamada da geração de código
 				}
-#line 1334 "calc.tab.c"
+#line 1335 "calc.tab.c"
     break;
 
   case 3:
-#line 36 "calc.y"
+#line 38 "calc.y"
                         { (yyval.no) = create_noh(STMT, 2); (yyval.no)->children[0] = (yyvsp[-1].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1340 "calc.tab.c"
+#line 1341 "calc.tab.c"
     break;
 
   case 4:
-#line 37 "calc.y"
+#line 39 "calc.y"
                         { (yyval.no) = create_noh(STMT, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1346 "calc.tab.c"
+#line 1347 "calc.tab.c"
     break;
 
   case 5:
-#line 40 "calc.y"
+#line 42 "calc.y"
                         { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1352 "calc.tab.c"
+#line 1353 "calc.tab.c"
     break;
 
   case 6:
-#line 41 "calc.y"
-                                        { (yyval.no) = create_noh(PRINT, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1358 "calc.tab.c"
+#line 43 "calc.y"
+                                { (yyval.no) = create_noh(PRINT, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+#line 1359 "calc.tab.c"
     break;
 
   case 7:
-#line 44 "calc.y"
-                                        { (yyval.no) = create_noh(ASSIGN, 2); (yyval.no)->children[0] = create_noh(IDENT, 0); (yyval.no)->children[0]->name = NULL; (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1364 "calc.tab.c"
+#line 46 "calc.y"
+                                        { (yyval.no) = create_noh(ASSIGN, 2); (yyval.no)->children[0] = create_noh(IDENT, 0); (yyval.no)->children[0]->name = (yyvsp[-2].args).ident; (yyval.no)->children[1] = (yyvsp[0].no); }
+#line 1365 "calc.tab.c"
     break;
 
   case 8:
-#line 47 "calc.y"
+#line 49 "calc.y"
                                         { (yyval.no) = create_noh(SUM, 2); (yyval.no)->children[0] = (yyvsp[-2].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1370 "calc.tab.c"
+#line 1371 "calc.tab.c"
     break;
 
   case 9:
-#line 48 "calc.y"
+#line 50 "calc.y"
                                                 { (yyval.no) = create_noh(MINUS, 2); (yyval.no)->children[0] = (yyvsp[-2].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1376 "calc.tab.c"
+#line 1377 "calc.tab.c"
     break;
 
   case 10:
-#line 49 "calc.y"
+#line 51 "calc.y"
                                 { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1382 "calc.tab.c"
+#line 1383 "calc.tab.c"
     break;
 
   case 11:
-#line 52 "calc.y"
+#line 54 "calc.y"
                                 { (yyval.no) = create_noh(MULTI, 2); (yyval.no)->children[0] = (yyvsp[-2].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1388 "calc.tab.c"
+#line 1389 "calc.tab.c"
     break;
 
   case 12:
-#line 53 "calc.y"
+#line 55 "calc.y"
                                 { (yyval.no) = create_noh(DIVIDE, 2); (yyval.no)->children[0] = (yyvsp[-2].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1394 "calc.tab.c"
+#line 1395 "calc.tab.c"
     break;
 
   case 13:
-#line 54 "calc.y"
+#line 56 "calc.y"
                         { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1400 "calc.tab.c"
+#line 1401 "calc.tab.c"
     break;
 
   case 14:
-#line 57 "calc.y"
+#line 59 "calc.y"
                                 { (yyval.no) = create_noh(POW, 2); (yyval.no)->children[0] = (yyvsp[-2].no); (yyval.no)->children[1] = (yyvsp[0].no); }
-#line 1406 "calc.tab.c"
+#line 1407 "calc.tab.c"
     break;
 
   case 15:
-#line 58 "calc.y"
+#line 60 "calc.y"
                         { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
-#line 1412 "calc.tab.c"
+#line 1413 "calc.tab.c"
     break;
 
   case 16:
-#line 61 "calc.y"
+#line 63 "calc.y"
                                 { (yyval.no) = create_noh(PAREN, 1); (yyval.no)->children[0] = (yyvsp[-1].no); }
-#line 1418 "calc.tab.c"
+#line 1419 "calc.tab.c"
     break;
 
   case 17:
-#line 62 "calc.y"
-                        { (yyval.no) = create_noh(IDENT, 0); (yyval.no)->name = NULL; }
-#line 1424 "calc.tab.c"
+#line 64 "calc.y"
+                        { (yyval.no) = create_noh(IDENT, 0); (yyval.no)->name = (yyvsp[0].args).ident; }
+#line 1425 "calc.tab.c"
     break;
 
   case 18:
-#line 63 "calc.y"
-                        { (yyval.no) = create_noh(INTEGER, 0); (yyval.no)->value = 0; }
-#line 1430 "calc.tab.c"
+#line 65 "calc.y"
+                        { (yyval.no) = create_noh(INTEGER, 0); (yyval.no)->intv = (yyvsp[0].args).intv; }
+#line 1431 "calc.tab.c"
     break;
 
   case 19:
-#line 64 "calc.y"
-                        { (yyval.no) = create_noh(FLOAT, 0); (yyval.no)->value = 0; }
-#line 1436 "calc.tab.c"
+#line 66 "calc.y"
+                        { (yyval.no) = create_noh(FLOAT, 0); (yyval.no)->dblv = (yyvsp[0].args).dblv; }
+#line 1437 "calc.tab.c"
     break;
 
 
-#line 1440 "calc.tab.c"
+#line 1441 "calc.tab.c"
 
       default: break;
     }
@@ -1668,7 +1669,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 67 "calc.y"
+#line 69 "calc.y"
 
 
 int yyerror(const char *s){

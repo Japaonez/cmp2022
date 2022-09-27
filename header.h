@@ -4,10 +4,18 @@
 
 enum noh_type {PROGRAM, STMT, GENERIC, ASSIGN, SUM, MINUS, MULTI, DIVIDE, PRINT, POW, FLOAT, PAREN, IDENT, INTEGER};
 
+static const char *noh_type_names[] = {"programa", "stmt", "generico", "=", "+", "-", "*", "/", "print", "^", "float", "( )", "ident", "integer"};
+
+typedef struct {
+    int intv;
+    double dblv;
+    char *ident;
+} token_args;
+
 struct noh {
-    int id, childcount;
+    int id, childcount, intv;
     enum noh_type type;
-    double value;
+    double dblv;
     char *name;
 
     struct noh *children[1];

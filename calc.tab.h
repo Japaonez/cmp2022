@@ -49,10 +49,10 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TOK_PRINTA = 258,
+    TOK_PRINT = 258,
     TOK_IDENT = 259,
-    TOK_INTEIRO = 260,
-    TOK_REAL = 261
+    TOK_INTEGER = 260,
+    TOK_FLOAT = 261
   };
 #endif
 
@@ -62,9 +62,10 @@ union YYSTYPE
 {
 #line 12 "calc.y"
 
+	token_args args;
 	struct noh *no;
 
-#line 68 "calc.tab.h"
+#line 69 "calc.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
