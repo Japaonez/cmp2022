@@ -1342,13 +1342,13 @@ yyreduce:
 
   case 4:
 #line 39 "calc.y"
-                        { (yyval.no) = create_noh(STMT, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+                        { (yyval.no) = (yyvsp[0].no); }
 #line 1347 "calc.tab.c"
     break;
 
   case 5:
 #line 42 "calc.y"
-                        { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+                        { (yyval.no) = (yyvsp[0].no); }
 #line 1353 "calc.tab.c"
     break;
 
@@ -1378,7 +1378,7 @@ yyreduce:
 
   case 10:
 #line 51 "calc.y"
-                                { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+                                { (yyval.no) = (yyvsp[0].no); }
 #line 1383 "calc.tab.c"
     break;
 
@@ -1396,7 +1396,7 @@ yyreduce:
 
   case 13:
 #line 56 "calc.y"
-                        { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+                        { (yyval.no) = (yyvsp[0].no); }
 #line 1401 "calc.tab.c"
     break;
 
@@ -1408,13 +1408,13 @@ yyreduce:
 
   case 15:
 #line 60 "calc.y"
-                        { (yyval.no) = create_noh(GENERIC, 1); (yyval.no)->children[0] = (yyvsp[0].no); }
+                        { (yyval.no) = (yyvsp[0].no); }
 #line 1413 "calc.tab.c"
     break;
 
   case 16:
 #line 63 "calc.y"
-                                { (yyval.no) = create_noh(PAREN, 1); (yyval.no)->children[0] = (yyvsp[-1].no); }
+                                { (yyval.no) = (yyvsp[-1].no); }
 #line 1419 "calc.tab.c"
     break;
 

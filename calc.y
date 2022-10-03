@@ -36,10 +36,10 @@ program : stmts {
 		;
 
 stmts : stmt stmts	{ $$ = create_noh(STMT, 2); $$->children[0] = $1; $$->children[1] = $2; }
-	  | stmt	{ $$ = create_noh(STMT, 1); $$->children[0] = $1; }
+	  | stmt	{ $$ = $1; }
 	  ;
 
-stmt : atribuicao	{ $$ = create_noh(GENERIC, 1); $$->children[0] = $1; }
+stmt : atribuicao	{ $$ = $1; }
 	 | TOK_PRINT aritmetica	{ $$ = create_noh(PRINT, 1); $$->children[0] = $2; }
 	 ;
 
@@ -48,19 +48,19 @@ atribuicao : TOK_IDENT '=' aritmetica	{ $$ = create_noh(ASSIGN, 2); $$->children
 
 aritmetica : aritmetica '+' termo	{ $$ = create_noh(SUM, 2); $$->children[0] = $1; $$->children[1] = $3; }
 		   | aritmetica '-' termo	{ $$ = create_noh(MINUS, 2); $$->children[0] = $1; $$->children[1] = $3; }
-		   | termo	{ $$ = create_noh(GENERIC, 1); $$->children[0] = $1; }
+		   | termo	{ $$ = $1; }
 		   ;
 
 termo : termo '*' termo2	{ $$ = create_noh(MULTI, 2); $$->children[0] = $1; $$->children[1] = $3; }
 	  | termo '/' termo2	{ $$ = create_noh(DIVIDE, 2); $$->children[0] = $1; $$->children[1] = $3; }
-	  | termo2	{ $$ = create_noh(GENERIC, 1); $$->children[0] = $1; }
+	  | termo2	{ $$ = $1; }
 	  ;
 
 termo2 : termo2 '^' fator	{ $$ = create_noh(POW, 2); $$->children[0] = $1; $$->children[1] = $3; }
-	   | fator	{ $$ = create_noh(GENERIC, 1); $$->children[0] = $1; }
+	   | fator	{ $$ = $1; }
 	   ;
 
-fator : '(' aritmetica ')'	{ $$ = create_noh(PAREN, 1); $$->children[0] = $2; }
+fator : '(' aritmetica ')'	{ $$ = $2; }
 	  | TOK_IDENT	{ $$ = create_noh(IDENT, 0); $$->name = $1.ident; }
 	  | TOK_INTEGER	{ $$ = create_noh(INTEGER, 0); $$->intv = $1.intv; }
 	  | TOK_FLOAT	{ $$ = create_noh(FLOAT, 0); $$->dblv = $1.dblv; }
