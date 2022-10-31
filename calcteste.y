@@ -17,11 +17,11 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_IF TOK_ELSE TOK_WHILE TOK_TRUE TOK_FALSE
+%token TOK_PRINT TOK_IF TOK_ELSE TOK_WHILE TOK_TRUE TOK_FALSE TAB
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT
 %start program
 
-%type <no> program stmts stmt atribuicao aritmetica termo termo2 fator else logica ltermo lfator valor
+%type <no> program stmts stmt atribuicao aritmetica termo termo2 fator if logica ltermo lfator valor
 
 %%
 
@@ -56,22 +56,22 @@ stmt : atribuicao	{
 								$$ = create_noh(PRINT, 1);
 								$$->children[0] = $2;
 							}
-	 | TOK_IF '(' logica ')' else {
+	 | TOK_IF '(' logica ')' ':' if {
 													$$ = create_noh(IF, 2);
-													$$->children[0] = $3;
-													$$->children[1] = $5;
-	 											}
-	 | TOK_WHILE '(' logica ')' '{' stmts '}' {
-													$$ = create_noh(WHILE, 2);
 													$$->children[0] = $3;
 													$$->children[1] = $6;
 	 											}
+	 | TOK_WHILE '(' logica ')' ':' TAB stmts {
+													$$ = create_noh(WHILE, 2);
+													$$->children[0] = $3;
+													$$->children[1] = $7;
+	 											}
 	 ;
 
-else : '{' stmts '}' { $$ = $2; }
-	 | TOK_ELSE '{' stmts '}' {
+if : TAB stmts { $$ = $2; }
+	 | TAB TOK_ELSE ':' stmts {
 								$$ = create_noh(ELSE, 1);
-								$$->children[0] = $3;
+								$$->children[0] = $4;
 							}
 	 ;
 

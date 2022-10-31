@@ -1,0 +1,5 @@
+if(a==true):
+	print a
+while(true):
+	if(false):
+	print abe

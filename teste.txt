@@ -1,1 +1,13 @@
-A = 10 B = 20.7 C = (A + B) / B * C D = A + B E = 5 * 2^3 - 7 print C
+A=10
+B=20.7
+C=(A+B)/B*C
+D=A+B
+E=5*2^3-7
+print C
+while(f==false){
+    if(A == true){
+        A=34
+        B=342
+        print H
+    }
+}

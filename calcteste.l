@@ -34,7 +34,9 @@ L	[a-zA-Z_]
 "!"				{ return '!'; }
 "&"				{ return '&'; }
 "|"				{ return '|'; }
+":"				{ return ':'; }
 
+[\t]			{ return TAB; }
 [ \t\n\r]       {  }
 [0-9]+			{ yylval.args.intv = atoi(yytext); return TOK_INTEGER; }
 {N}+\.{N}+		{ yylval.args.dblv = atof(yytext); return TOK_FLOAT; }

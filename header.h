@@ -2,9 +2,9 @@
 
 // header.h
 
-enum noh_type {PROGRAM, STMT, GENERIC, ASSIGN, SUM, MINUS, MULTI, DIVIDE, PRINT, POW, FLOAT, PAREN, IDENT, INTEGER};
+enum noh_type {PROGRAM, STMT, GENERIC, ASSIGN, SUM, MINUS, MULTI, DIVIDE, PRINT, POW, FLOAT, PAREN, IDENT, INTEGER, IF, ELSE, WHILE, MAIOR, MAIORIGUAL, MENOR, MENORIGUAL, IGUAL, DIFERENTE, OU, E, TRUE, FALSE};
 
-static const char *noh_type_names[] = {"programa", "stmt", "generico", "=", "+", "-", "*", "/", "print", "^", "float", "( )", "ident", "integer"};
+static const char *noh_type_names[] = {"programa", "stmt", "generico", "=", "+", "-", "*", "/", "print", "^", "float", "( )", "ident", "integer", "if", "else", "while", ">", ">=", "<", "<=", "==", "!=", "||", "&&", "true", "false"};
 
 typedef struct {
     int intv;
