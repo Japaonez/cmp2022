@@ -11,7 +11,7 @@ L	[a-zA-Z_]
 
 %%
 
-"print"			{ printf("%s", strndup(yytext, yyleng)); return TOK_PRINT; }
+"print"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_PRINT; }
 
 "="				{ return '='; }
 "*"				{ return '*'; }

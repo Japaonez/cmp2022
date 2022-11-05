@@ -70,6 +70,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include "header.h"
 
@@ -78,7 +80,19 @@ int yylex(void);
 
 extern int yylineno;
 
-#line 82 "calc.tab.c"
+typedef struct {
+	char *nome;
+	int token;
+} simbolo;
+
+int simbolo_qnt = 0;
+simbolo tsimbolos[100];
+simbolo *simbolo_novo(char *nome, int token);
+bool simbolo_existe(char *nome);
+void debug();
+
+
+#line 96 "calc.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -137,12 +151,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "calc.y"
+#line 27 "calc.y"
 
 	token_args args;
 	struct noh *no;
 
-#line 146 "calc.tab.c"
+#line 160 "calc.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -516,10 +530,10 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int8 yyrline[] =
+static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    39,    46,    52,    55,    61,    69,    74,
-      79,    84,    89,    94,    99,   104,   109,   112,   116,   120
+       0,    42,    42,    54,    61,    67,    70,    76,    86,    91,
+      96,   101,   106,   111,   116,   121,   126,   129,   135,   139
 };
 #endif
 
@@ -1322,21 +1336,22 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 28 "calc.y"
+#line 42 "calc.y"
                 { 
 					noh *program = create_noh(PROGRAM, 1); program->children[0] = (yyvsp[0].no);
 
 					print(program);
+					debug();
 
 					//chamada da arvore abstrata
 					//chamada da verificação semântica
 					//chamada da geração de código
 				}
-#line 1336 "calc.tab.c"
+#line 1351 "calc.tab.c"
     break;
 
   case 3:
-#line 39 "calc.y"
+#line 54 "calc.y"
                         {
 						noh *n = (yyvsp[-1].no);
 						n = (noh*)realloc(n, sizeof(noh) + sizeof(noh*) * n->childcount);
@@ -1344,157 +1359,161 @@ yyreduce:
 						n->childcount++;
 						(yyval.no) = n;
 					}
-#line 1348 "calc.tab.c"
+#line 1363 "calc.tab.c"
     break;
 
   case 4:
-#line 46 "calc.y"
+#line 61 "calc.y"
                         { 
 					(yyval.no) = create_noh(STMT, 1);
 					(yyval.no)->children[0] = (yyvsp[0].no);;
 				}
-#line 1357 "calc.tab.c"
+#line 1372 "calc.tab.c"
     break;
 
   case 5:
-#line 52 "calc.y"
+#line 67 "calc.y"
                         {
 						(yyval.no) = (yyvsp[0].no);
 					}
-#line 1365 "calc.tab.c"
+#line 1380 "calc.tab.c"
     break;
 
   case 6:
-#line 55 "calc.y"
+#line 70 "calc.y"
                                 {
 								(yyval.no) = create_noh(PRINT, 1);
 								(yyval.no)->children[0] = (yyvsp[0].no);
 							}
-#line 1374 "calc.tab.c"
+#line 1389 "calc.tab.c"
     break;
 
   case 7:
-#line 61 "calc.y"
+#line 76 "calc.y"
                                         {
+											if (!simbolo_existe((yyvsp[-2].args).ident))
+												simbolo_novo((yyvsp[-2].args).ident, TOK_IDENT);
 											(yyval.no) = create_noh(ASSIGN, 2);
 											(yyval.no)->children[0] = create_noh(IDENT, 0);
 											(yyval.no)->children[0]->name = (yyvsp[-2].args).ident;
 											(yyval.no)->children[1] = (yyvsp[0].no);
 										}
-#line 1385 "calc.tab.c"
+#line 1402 "calc.tab.c"
     break;
 
   case 8:
-#line 69 "calc.y"
+#line 86 "calc.y"
                                         {
 										(yyval.no) = create_noh(SUM, 2);
 										(yyval.no)->children[0] = (yyvsp[-2].no);
 										(yyval.no)->children[1] = (yyvsp[0].no);
 									}
-#line 1395 "calc.tab.c"
+#line 1412 "calc.tab.c"
     break;
 
   case 9:
-#line 74 "calc.y"
+#line 91 "calc.y"
                                                 {
 										(yyval.no) = create_noh(MINUS, 2);
 										(yyval.no)->children[0] = (yyvsp[-2].no);
 										(yyval.no)->children[1] = (yyvsp[0].no);
 										}
-#line 1405 "calc.tab.c"
+#line 1422 "calc.tab.c"
     break;
 
   case 10:
-#line 79 "calc.y"
+#line 96 "calc.y"
                                 {
 						(yyval.no) = (yyvsp[0].no);
 					}
-#line 1413 "calc.tab.c"
+#line 1430 "calc.tab.c"
     break;
 
   case 11:
-#line 84 "calc.y"
+#line 101 "calc.y"
                                 {
 								(yyval.no) = create_noh(MULTI, 2);
 								(yyval.no)->children[0] = (yyvsp[-2].no);
 								(yyval.no)->children[1] = (yyvsp[0].no);
 							}
-#line 1423 "calc.tab.c"
+#line 1440 "calc.tab.c"
     break;
 
   case 12:
-#line 89 "calc.y"
+#line 106 "calc.y"
                                 {
 								(yyval.no) = create_noh(DIVIDE, 2);
 	  							(yyval.no)->children[0] = (yyvsp[-2].no);
 	  							(yyval.no)->children[1] = (yyvsp[0].no);
 							}
-#line 1433 "calc.tab.c"
+#line 1450 "calc.tab.c"
     break;
 
   case 13:
-#line 94 "calc.y"
+#line 111 "calc.y"
                         {
 					(yyval.no) = (yyvsp[0].no);
 				}
-#line 1441 "calc.tab.c"
+#line 1458 "calc.tab.c"
     break;
 
   case 14:
-#line 99 "calc.y"
+#line 116 "calc.y"
                                 {
 								(yyval.no) = create_noh(POW, 2);
 								(yyval.no)->children[0] = (yyvsp[-2].no);
 								(yyval.no)->children[1] = (yyvsp[0].no);
 							}
-#line 1451 "calc.tab.c"
+#line 1468 "calc.tab.c"
     break;
 
   case 15:
-#line 104 "calc.y"
+#line 121 "calc.y"
                         {
 					(yyval.no) = (yyvsp[0].no);
 				}
-#line 1459 "calc.tab.c"
-    break;
-
-  case 16:
-#line 109 "calc.y"
-                                {
-								(yyval.no) = (yyvsp[-1].no);
-							}
-#line 1467 "calc.tab.c"
-    break;
-
-  case 17:
-#line 112 "calc.y"
-                        {
-						(yyval.no) = create_noh(IDENT, 0);
-	  					(yyval.no)->name = (yyvsp[0].args).ident;
-					}
 #line 1476 "calc.tab.c"
     break;
 
+  case 16:
+#line 126 "calc.y"
+                                {
+								(yyval.no) = (yyvsp[-1].no);
+							}
+#line 1484 "calc.tab.c"
+    break;
+
+  case 17:
+#line 129 "calc.y"
+                        {
+						if (!simbolo_existe((yyvsp[0].args).ident))
+							simbolo_novo((yyvsp[0].args).ident, TOK_IDENT);
+						(yyval.no) = create_noh(IDENT, 0);
+	  					(yyval.no)->name = (yyvsp[0].args).ident;
+					}
+#line 1495 "calc.tab.c"
+    break;
+
   case 18:
-#line 116 "calc.y"
+#line 135 "calc.y"
                         {
 						(yyval.no) = create_noh(INTEGER, 0);
 	  					(yyval.no)->intv = (yyvsp[0].args).intv;
 					}
-#line 1485 "calc.tab.c"
+#line 1504 "calc.tab.c"
     break;
 
   case 19:
-#line 120 "calc.y"
+#line 139 "calc.y"
                         {
 						(yyval.no) = create_noh(FLOAT, 0);
 	  					(yyval.no)->dblv = (yyvsp[0].args).dblv;
 					}
-#line 1494 "calc.tab.c"
+#line 1513 "calc.tab.c"
     break;
 
 
-#line 1498 "calc.tab.c"
+#line 1517 "calc.tab.c"
 
       default: break;
     }
@@ -1726,10 +1745,33 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 126 "calc.y"
+#line 145 "calc.y"
 
 
 int yyerror(const char *s){
 	printf("Erro na linha %d: %s\n", yylineno, s);
 	return 1;
+}
+
+simbolo *simbolo_novo(char *nome, int token){
+	tsimbolos[simbolo_qnt].nome = nome;
+	tsimbolos[simbolo_qnt].token = token;
+	simbolo *result = &tsimbolos[simbolo_qnt];
+	simbolo_qnt++;
+	return result;
+}
+
+bool simbolo_existe(char *nome){
+	// busca linear, nao eficiente
+	for(int i = 0; i < simbolo_qnt; i++){
+		if(strcmp(tsimbolos[i].nome, nome) == 0)
+			return true;
+	}
+	return false;
+}
+
+void debug(){
+	printf("Simbolos: \n");
+	for(int i = 0; i < simbolo_qnt; i++)
+		printf("\t%s\n", tsimbolos[i].nome);
 }

@@ -773,7 +773,7 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 YY_RULE_SETUP
 #line 14 "calc.l"
-{ printf("%s", strndup(yytext, yyleng)); return TOK_PRINT; }
+{ printf("%s\n", strndup(yytext, yyleng)); return TOK_PRINT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP

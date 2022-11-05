@@ -1,6 +1,8 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
 
 #include "header.h"
 
@@ -8,6 +10,18 @@ int yyerror(const char *s);
 int yylex(void);
 
 extern int yylineno;
+
+typedef struct {
+	char *nome;
+	int token;
+} simbolo;
+
+int simbolo_qnt = 0;
+simbolo tsimbolos[100];
+simbolo *simbolo_novo(char *nome, int token);
+bool simbolo_existe(char *nome);
+void debug();
+
 %}
 
 %union{
@@ -29,6 +43,7 @@ program : stmts {
 					noh *program = create_noh(PROGRAM, 1); program->children[0] = $1;
 
 					print(program);
+					debug();
 
 					//chamada da arvore abstrata
 					//chamada da verificação semântica
@@ -59,6 +74,8 @@ stmt : atribuicao	{
 	 ;
 
 atribuicao : TOK_IDENT '=' aritmetica	{
+											if (!simbolo_existe($1.ident))
+												simbolo_novo($1.ident, TOK_IDENT);
 											$$ = create_noh(ASSIGN, 2);
 											$$->children[0] = create_noh(IDENT, 0);
 											$$->children[0]->name = $1.ident;
@@ -110,6 +127,8 @@ fator : '(' aritmetica ')'	{
 								$$ = $2;
 							}
 	  | TOK_IDENT	{
+						if (!simbolo_existe($1.ident))
+							simbolo_novo($1.ident, TOK_IDENT);
 						$$ = create_noh(IDENT, 0);
 	  					$$->name = $1.ident;
 					}
@@ -128,4 +147,27 @@ fator : '(' aritmetica ')'	{
 int yyerror(const char *s){
 	printf("Erro na linha %d: %s\n", yylineno, s);
 	return 1;
+}
+
+simbolo *simbolo_novo(char *nome, int token){
+	tsimbolos[simbolo_qnt].nome = nome;
+	tsimbolos[simbolo_qnt].token = token;
+	simbolo *result = &tsimbolos[simbolo_qnt];
+	simbolo_qnt++;
+	return result;
+}
+
+bool simbolo_existe(char *nome){
+	// busca linear, nao eficiente
+	for(int i = 0; i < simbolo_qnt; i++){
+		if(strcmp(tsimbolos[i].nome, nome) == 0)
+			return true;
+	}
+	return false;
+}
+
+void debug(){
+	printf("Simbolos: \n");
+	for(int i = 0; i < simbolo_qnt; i++)
+		printf("\t%s\n", tsimbolos[i].nome);
 }
