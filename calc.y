@@ -1,8 +1,6 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 
 #include "header.h"
 
@@ -10,17 +8,6 @@ int yyerror(const char *s);
 int yylex(void);
 
 extern int yylineno;
-
-typedef struct {
-	char *nome;
-	int token;
-} simbolo;
-
-int simbolo_qnt = 0;
-simbolo tsimbolos[100];
-simbolo *simbolo_novo(char *nome, int token);
-bool simbolo_existe(char *nome);
-void debug();
 
 %}
 
@@ -45,8 +32,10 @@ program : stmts {
 					print(program);
 					debug();
 
+
 					//chamada da arvore abstrata
 					//chamada da verificação semântica
+					visitor_leaf_first(&program, check_declared_vars);
 					//chamada da geração de código
 				}
 		;
