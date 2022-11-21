@@ -21,7 +21,7 @@ typedef struct {
 	bool exists;
 } simbolo;
 
-static int simbolo_qnt = 0;
+static int simbolo_qnt = 0, error_count = 0;
 simbolo tsimbolos[100];
 simbolo *simbolo_novo(char *nome, int token);
 bool simbolo_existe(char *nome);

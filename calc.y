@@ -138,23 +138,6 @@ int yyerror(const char *s){
 	return 1;
 }
 
-simbolo *simbolo_novo(char *nome, int token){
-	tsimbolos[simbolo_qnt].nome = nome;
-	tsimbolos[simbolo_qnt].token = token;
-	simbolo *result = &tsimbolos[simbolo_qnt];
-	simbolo_qnt++;
-	return result;
-}
-
-bool simbolo_existe(char *nome){
-	// busca linear, nao eficiente
-	for(int i = 0; i < simbolo_qnt; i++){
-		if(strcmp(tsimbolos[i].nome, nome) == 0)
-			return true;
-	}
-	return false;
-}
-
 void debug(){
 	printf("Simbolos: \n");
 	for(int i = 0; i < simbolo_qnt; i++)
