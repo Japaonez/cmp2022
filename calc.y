@@ -8,6 +8,8 @@ int yyerror(const char *s);
 int yylex(void);
 
 extern int yylineno;
+
+int yydebug = 1;
 %}
 
 %union{
@@ -17,11 +19,11 @@ extern int yylineno;
 
 %define parse.error verbose
 
-%token TOK_PRINT TOK_IF TOK_ELSE TOK_WHILE TOK_TRUE TOK_FALSE
+%token TOK_PRINT TOK_IF TOK_ELSE TOK_WHILE TOK_TRUE TOK_FALSE TOK_ELSEIF
 %token <args> TOK_IDENT TOK_INTEGER TOK_FLOAT
 %start program
 
-%type <no> program stmts stmt atribuicao aritmetica termo termo2 fator else logica ltermo lfator valor
+%type <no> program stmts stmt atribuicao aritmetica termo termo2 fator if else logica ltermo lfator valor
 
 %%
 
@@ -45,7 +47,7 @@ stmts : stmts stmt	{
 					}
 	  | stmt	{ 
 					$$ = create_noh(STMT, 1);
-					$$->children[0] = $1;;
+					$$->children[0] = $1;
 				}
 	  ;
 
@@ -56,23 +58,37 @@ stmt : atribuicao	{
 								$$ = create_noh(PRINT, 1);
 								$$->children[0] = $2;
 							}
-	 | TOK_IF '(' logica ')' else {
-													$$ = create_noh(IF, 2);
-													$$->children[0] = $3;
-													$$->children[1] = $5;
-	 											}
+	 | TOK_IF if { $$ = $2; }
 	 | TOK_WHILE '(' logica ')' '{' stmts '}' {
-													$$ = create_noh(WHILE, 2);
+													noh *n = create_noh(WHILE, 1);
+													$$ = teste(n, $6);
 													$$->children[0] = $3;
-													$$->children[1] = $6;
 	 											}
 	 ;
 
-else : '{' stmts '}' { $$ = $2; }
-	 | TOK_ELSE '{' stmts '}' {
-								$$ = create_noh(ELSE, 1);
+if : '(' logica ')' '{' stmts '}'  {
+													noh *n = create_noh(IF, 1);
+													$$ = teste(n, $5);
+													$$->children[0] = $2;
+	 											}
+	| '(' logica ')' '{' stmts '}' else {
+													noh *n = create_noh(IF, 2);
+													$$ = teste(n, $5);
+													$$->children[0] = $2;
+													$$->children[$$->childcount - 1] = $7;
+	 											}
+
+else : TOK_ELSEIF '(' logica ')' '{' stmts '}' else {
+								noh *n = create_noh(ELSEIF, 2);
+								$$ = teste(n, $6);
 								$$->children[0] = $3;
+								$$->children[$$->childcount - 1] = $8;
 							}
+	 | TOK_ELSE '{' stmts '}' {
+								noh *n = create_noh(ELSE, 0);
+								$$ = teste(n, $3);
+							}
+	 |
 	 ;
 
 logica : logica '&''&' ltermo {

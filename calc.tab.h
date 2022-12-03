@@ -55,9 +55,10 @@ extern int yydebug;
     TOK_WHILE = 261,
     TOK_TRUE = 262,
     TOK_FALSE = 263,
-    TOK_IDENT = 264,
-    TOK_INTEGER = 265,
-    TOK_FLOAT = 266
+    TOK_ELSEIF = 264,
+    TOK_IDENT = 265,
+    TOK_INTEGER = 266,
+    TOK_FLOAT = 267
   };
 #endif
 
@@ -65,12 +66,12 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 13 "calc.y"
+#line 15 "calc.y"
 
 	token_args args;
 	struct noh *no;
 
-#line 74 "calc.tab.h"
+#line 75 "calc.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

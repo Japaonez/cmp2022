@@ -2,9 +2,9 @@
 
 // header.h
 
-enum noh_type {PROGRAM, STMT, GENERIC, ASSIGN, SUM, MINUS, MULTI, DIVIDE, PRINT, POW, FLOAT, PAREN, IDENT, INTEGER, IF, ELSE, WHILE, MAIOR, MAIORIGUAL, MENOR, MENORIGUAL, IGUAL, DIFERENTE, OU, E, TRUE, FALSE};
+enum noh_type {PROGRAM, STMT, GENERIC, ASSIGN, SUM, MINUS, MULTI, DIVIDE, PRINT, POW, FLOAT, PAREN, IDENT, INTEGER, IF, ELSE, WHILE, MAIOR, MAIORIGUAL, MENOR, MENORIGUAL, IGUAL, DIFERENTE, OU, E, TRUE, FALSE, ELSEIF};
 
-static const char *noh_type_names[] = {"programa", "stmt", "generico", "=", "+", "-", "*", "/", "print", "^", "float", "( )", "ident", "integer", "if", "else", "while", ">", ">=", "<", "<=", "==", "!=", "||", "&&", "true", "false"};
+static const char *noh_type_names[] = {"programa", "stmt", "generico", "=", "+", "-", "*", "/", "print", "^", "float", "( )", "ident", "integer", "if", "else", "while", ">", ">=", "<", "<=", "==", "!=", "||", "&&", "true", "false", "else if"};
 
 typedef struct {
     int intv;
@@ -26,3 +26,5 @@ noh *create_noh(enum noh_type, int children);
 
 void print(noh *root);
 void print_rec(FILE *f, noh *root);
+
+noh *teste(noh *n, noh *m);

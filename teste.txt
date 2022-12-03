@@ -8,6 +8,32 @@ while(f==false){
     if(A == true){
         A=34
         B=342
+        if(true){
+            print true
+        }
         print H
+    }else if(a == true){
+        print ads
+        if(true){
+            print true
+        }
+    }else{
+        a = 23
+        if(true){
+            print true
+        }
     }
+}
+if(true){
+    print false
+    if(A == 432452){
+        if(b == 3124){
+            print a
+        }
+    }
+    print A
+    print B
+}else{
+    print true
+    A = F + 2
 }

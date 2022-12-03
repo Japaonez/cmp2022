@@ -24,6 +24,28 @@ void print(noh *root){
 	fclose(f);
 }
 
+noh *teste(noh *n, noh *m){
+	n = (noh*)realloc(n, sizeof(noh) + sizeof(noh*) * (m->childcount + n->childcount + 1));
+
+	if(n->childcount == 0){
+		for(int i = 0; i < m->childcount; i++){
+			n->children[i] = m->children[i];
+			n->childcount++;
+		}
+	}else if(m->type == STMT){
+
+		for(int i = 0; i < m->childcount; i++){
+			n->children[i + 1] = m->children[i];
+			n->childcount++;
+		}
+
+	}else{
+		n->children[1] = m;
+	}
+
+	return n;
+}
+
 const char *get_label(noh *no){
 	static char aux[100];
 	switch(no->type){

@@ -15,6 +15,7 @@ L	[a-zA-Z_]
 "if"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_IF; }
 "else"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_ELSE; }
 "while"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_WHILE; }
+"else if"		{ printf("%s\n", strndup(yytext, yyleng)); return TOK_ELSEIF; }
 
 "true" 			{ yylval.args.ident = strndup(yytext, yyleng); return TOK_TRUE; }
 "false"			{ yylval.args.ident = strndup(yytext, yyleng); return TOK_FALSE; }
