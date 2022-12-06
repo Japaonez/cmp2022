@@ -2,6 +2,9 @@
 	#include <stdio.h>
 	#include "header.h"
 	#include "calc.tab.h"
+
+	extern int yycol;
+	#define YY_USER_ACTION yycol += yyleng;
 %}
 
 %option yylineno
@@ -11,14 +14,17 @@ L	[a-zA-Z_]
 
 %%
 
-"print"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_PRINT; }
-"if"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_IF; }
-"else"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_ELSE; }
-"while"			{ printf("%s\n", strndup(yytext, yyleng)); return TOK_WHILE; }
-"else if"		{ printf("%s\n", strndup(yytext, yyleng)); return TOK_ELSEIF; }
+"print"			{ return TOK_PRINT; }
+"if"			{ return TOK_IF; }
+"else"			{ return TOK_ELSE; }
+"while"			{ return TOK_WHILE; }
+"else if"		{ return TOK_ELSEIF; }
 
 "true" 			{ yylval.args.ident = strndup(yytext, yyleng); return TOK_TRUE; }
 "false"			{ yylval.args.ident = strndup(yytext, yyleng); return TOK_FALSE; }
+
+"int"			{ return TOK_INT; }
+"float"			{ return TOK_float; }
 
 "="				{ return '='; }
 "*"				{ return '*'; }
@@ -36,7 +42,8 @@ L	[a-zA-Z_]
 "&"				{ return '&'; }
 "|"				{ return '|'; }
 
-[ \t\n\r]       {  }
+[ \t\r]       	{  }
+[\n]			{ yycol = 0; }
 [0-9]+			{ yylval.args.intv = atoi(yytext); return TOK_INTEGER; }
 {N}+\.{N}+		{ yylval.args.dblv = atof(yytext); return TOK_FLOAT; }
 {L}({L}|{N})*	{ yylval.args.ident = strndup(yytext, yyleng); return TOK_IDENT; }
