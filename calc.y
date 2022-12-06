@@ -172,6 +172,7 @@ atribuicao : TOK_INT TOK_IDENT {
 
 											visitor_leaf_first(&$$, check_division_zero);
 											visitor_leaf_first(&$$, check_type_incompatible);
+											visitor_leaf_first(&$$, check_variable);
 										}
 		   ;
 

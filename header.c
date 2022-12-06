@@ -4,6 +4,7 @@
 #include "header.h"
 
 extern int yylineno, yycol;
+simbolo tsimbolos[100];
 
 noh *create_noh(enum noh_type nt, int filhos){
 	static int IDCOUNT = 0;
@@ -103,7 +104,7 @@ void check_division_zero(noh **root, noh *no){
 	if(no->type == DIVIDE && no->children[1]->type == INTEGER && no->children[1] && no->children[1]->intv == 0){
 		printf("%d.%d: \t", yylineno - 1, yycol);
 		error();
-		printf(" divisão por zero.\n");
+		printf("divisão por zero.\n");
 		error_count++;
 	}
 }
@@ -125,7 +126,7 @@ void check_type_incompatible(noh **root, noh *no){
 		if((no->children[0]->type == INTEGER && no->children[1]->type == FLOAT) || (no->children[1]->type == INTEGER && no->children[0]->type == FLOAT)){
 			printf("%d.%d: \t", yylineno - 1, yycol);
 			error();
-			printf(" tipos incompativeis (%s %s %s).\n", noh_type_names[no->children[0]->type], noh_type_names[no->type], noh_type_names[no->children[1]->type]);
+			printf("tipos incompativeis (%s %s %s).\n", noh_type_names[no->children[0]->type], noh_type_names[no->type], noh_type_names[no->children[1]->type]);
 			error_count++;
 		}
 		if(no->children[1]){
@@ -134,7 +135,7 @@ void check_type_incompatible(noh **root, noh *no){
 				if(s1 != s2){
 					printf("%d.%d: \t1", yylineno - 1, yycol);
 					error();
-					printf(" tipos incompativeis (%s %s %s).\n", s2->tipo, noh_type_names[no->type], s1->tipo);
+					printf("tipos incompativeis ({%s}%s %s {%s}%s).\n", s2->nome, s2->tipo, noh_type_names[no->type], s1->nome, s1->tipo);
 				error_count++;
 				}
 			}else if(no->children[0]->name && simbolo_existe(no->children[0]->name) && 
@@ -144,7 +145,7 @@ void check_type_incompatible(noh **root, noh *no){
 				if(strcmp(s1->tipo, noh_type_names[no->children[1]->type]) != 0){
 					printf("%d.%d: \t2", yylineno - 1, yycol);
 					error();
-					printf(" tipos incompativeis (%s %s %s).\n", s1->tipo, noh_type_names[no->type], noh_type_names[no->children[1]->type]);
+					printf("tipos incompativeis ({%s}%s %s %s).\n", s1->nome, s1->tipo, noh_type_names[no->type], noh_type_names[no->children[1]->type]);
 					// printf("nome %s nome %s\n", buscar_simbolo(no->children[0])->nome, no->children[1]->name);
 				error_count++;
 				}
@@ -155,7 +156,7 @@ void check_type_incompatible(noh **root, noh *no){
 				if(strcmp(s2->tipo, noh_type_names[no->children[0]->type]) != 0){
 					printf("%d.%d: \t3", yylineno - 1, yycol);
 					error();
-					printf(" tipos incompativeis (%s %s %s).\n", noh_type_names[no->children[0]->type], noh_type_names[no->type], s2->tipo);
+					printf("tipos incompativeis (%s %s {%s}%s).\n", noh_type_names[no->children[0]->type], noh_type_names[no->type], s2->nome, s2->tipo);
 					// printf("nome %s nome %s\n", buscar_simbolo(no->children[0])->nome, no->children[1]->name);
 				error_count++;
 				}
@@ -182,12 +183,54 @@ void check_print(noh **root, noh *no){
 	if(no->type == TRUE || no->type == FALSE){
 		printf("%d.%d: \t", yylineno - 1, yycol);
 		error();
-		printf(" não pode printar booleano.\n");
+		printf("não pode printar booleano.\n");
 		error_count++;
 	}
 }
 
+void check_variable(noh **root, noh *no){
+	static simbolo *var, *aux;
+	if(no->name && search_symbol(no->name) != -1){
+		var = buscar_simbolo(no);
+		
+		
+
+	}
+	// if(var){
+	// 	if(strcmp(var->tipo, noh_type_names[no->type]) == 0)
+	// 		printf("tipo %s\n", var->nome);
+	// }
+	if(strcmp(var->tipo, noh_type_names[no->type]) != 0 && (no->type == INTEGER || no->type == FLOAT)){
+		//  || strcmp(var->tipo, buscar_simbolo(no)->tipo) == 0){
+			// printf("%s %s ", var->tipo, noh_type_names[no->type]);
+
+			printf("%d.%d: \t", yylineno - 1, yycol);
+			error();
+			printf("tipos incompativel({%s}%s != %s)\n", var->nome, var->tipo, noh_type_names[no->type]);
+			error_count++;
+		}else{
+			if(no->name && search_symbol(no->name) != -1)
+				aux = buscar_simbolo(no);
+				// printf("%d.%d: \t", yylineno - 1, yycol);
+
+				// printf("tipos incompativel({%s}%s != {%s}%s)\n", var->nome, var->tipo, aux->nome, aux->tipo);
+			
+			if(strcmp(var->tipo, aux->tipo) != 0){
+				printf("%d.%d: \t", yylineno - 1, yycol);
+				error();
+				printf("tipos incompativel({%s}%s != {%s}%s)\n", var->nome, var->tipo, aux->nome, aux->tipo);
+			}
+		}
+	// 	printf("tipo %s\n", noh_type_names[no->type]);
+
+	// if(no->type == INTEGER){
+	// 	printf("%d.%d: \t", yylineno - 1, yycol);
+	// 	printf("%d\n", no->intv);
+	// }
+}
+
 simbolo *buscar_simbolo(noh *no){
+	simbolo *s;
 	// printf("NOME %s\n", no->name);
 	for(int i = 0; i < simbolo_qnt; i++){
 			// printf("NOME2 %s\n", tsimbolos[i].nome);
@@ -195,6 +238,7 @@ simbolo *buscar_simbolo(noh *no){
 			return &tsimbolos[i];
 		}
 	}
+	// return &s;
 }
 
 // void check_division_zero(noh *no){
@@ -232,19 +276,19 @@ simbolo *simbolo_novo(char *nome, int token, int tipo){
 	return result;
 }
 
-simbolo *simbolo_erro(char *nome, int token, int n){
+void simbolo_erro(char *nome, int token, int n){
 	// esimbolos[simbolo_qnt_erro].nome = nome;
 	// esimbolos[simbolo_qnt_erro].token = token;
 	// esimbolos[simbolo_qnt_erro].exists = false;
-	simbolo *result = &esimbolos[simbolo_qnt_erro];
+	// simbolo *result = &esimbolos[simbolo_qnt_erro];
 	// simbolo_qnt_erro++;
 	// linha_coluna(result);
 	printf("%d.%d: \t", yylineno - n, yycol);
 	error();
-	printf(" símbolo %s não declarado.\n", nome);
+	printf("símbolo %s não declarado.\n", nome);
 	error_count++;
 	// printf(">entrou %d\n", simbolo_qnt);
-	return result;
+	// return result;
 }
 
 bool simbolo_existe(char *nome){
@@ -261,12 +305,12 @@ void debug(){
 	printf("Simbolos: ");
 	// printf(">> %d \n", simbolo_qnt);
 	for(int i = 0; i < simbolo_qnt; i++)
-		printf("%d{%s}%s ", tsimbolos[i].linha, tsimbolos[i].nome, tsimbolos[i].tipo);
+		printf("%d.{%s}%s ", tsimbolos[i].linha, tsimbolos[i].nome, tsimbolos[i].tipo);
 	printf("\nErros: %d\n", error_count);
 }
 
 void error(){
 	printf("\033[0;31m");
-	printf("error:");
+	printf("error: ");
 	printf("\033[0m");
 }

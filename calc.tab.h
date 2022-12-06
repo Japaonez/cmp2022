@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.7.5.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2021 Free Software Foundation,
    Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -31,8 +31,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
+/* DO NOT RELY ON FEATURES THAT ARE NOT DOCUMENTED in the manual,
+   especially those whose name start with YY_ or yy_.  They are
+   private implementation details that can be changed or removed.  */
 
 #ifndef YY_YY_CALC_TAB_H_INCLUDED
 # define YY_YY_CALC_TAB_H_INCLUDED
@@ -44,26 +45,31 @@
 extern int yydebug;
 #endif
 
-/* Token type.  */
+/* Token kinds.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
   enum yytokentype
   {
-    TOK_PRINT = 258,
-    TOK_IF = 259,
-    TOK_ELSE = 260,
-    TOK_WHILE = 261,
-    TOK_TRUE = 262,
-    TOK_FALSE = 263,
-    TOK_ELSEIF = 264,
-    TOK_DOUBLE = 265,
-    TOK_CHAR = 266,
-    TOK_IDENT = 267,
-    TOK_INTEGER = 268,
-    TOK_FLOAT = 269,
-    TOK_INT = 270,
-    TOK_float = 271
+    YYEMPTY = -2,
+    YYEOF = 0,                     /* "end of file"  */
+    YYerror = 256,                 /* error  */
+    YYUNDEF = 257,                 /* "invalid token"  */
+    TOK_PRINT = 258,               /* TOK_PRINT  */
+    TOK_IF = 259,                  /* TOK_IF  */
+    TOK_ELSE = 260,                /* TOK_ELSE  */
+    TOK_WHILE = 261,               /* TOK_WHILE  */
+    TOK_TRUE = 262,                /* TOK_TRUE  */
+    TOK_FALSE = 263,               /* TOK_FALSE  */
+    TOK_ELSEIF = 264,              /* TOK_ELSEIF  */
+    TOK_DOUBLE = 265,              /* TOK_DOUBLE  */
+    TOK_CHAR = 266,                /* TOK_CHAR  */
+    TOK_IDENT = 267,               /* TOK_IDENT  */
+    TOK_INTEGER = 268,             /* TOK_INTEGER  */
+    TOK_FLOAT = 269,               /* TOK_FLOAT  */
+    TOK_INT = 270,                 /* TOK_INT  */
+    TOK_float = 271                /* TOK_float  */
   };
+  typedef enum yytokentype yytoken_kind_t;
 #endif
 
 /* Value type.  */
@@ -75,7 +81,7 @@ union YYSTYPE
 	token_args args;
 	struct noh *no;
 
-#line 79 "calc.tab.h"
+#line 85 "calc.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

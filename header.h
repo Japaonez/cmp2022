@@ -22,7 +22,7 @@ typedef struct {
 } simbolo;
 
 static int simbolo_qnt = 0, error_count = 0, simbolo_qnt_erro = 0;
-simbolo tsimbolos[100], esimbolos[100];
+// simbolo tsimbolos[100];
 // simbolo *simbolo_novo(char *nome, int token);
 simbolo *simbolo_novo(char *nome, int token, int tipo);
 bool simbolo_existe(char *nome);
@@ -53,9 +53,10 @@ void visitor_leaf_first(noh **root, visitor_action act);
 void check_division_zero(noh **root, noh *no);
 void check_type_incompatible(noh **root, noh *no);
 void check_print(noh **root, noh *no);
+void check_variable(noh **root, noh *no);
 
 // simbolo *simbolo_erro(char *nome, int token);
-simbolo *simbolo_erro(char *nome, int token, int n);
+void simbolo_erro(char *nome, int token, int n);
 simbolo *buscar_simbolo(noh *no);
 void linha_coluna(simbolo *s);
 int pegar_linha();

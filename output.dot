@@ -22,7 +22,7 @@ graph G{
 	N11[label="="];
 	N12[label="A"];
 	N11 -- N12;
-	N10[label="10"];
+	N10[label="B"];
 	N11 -- N10;
 	N3 -- N11;
 	N14[label="="];
