@@ -1,48 +1,39 @@
 int A
 float B
 int C
-A=B
+A=32
 B=20.7
-C=A/B
-C=(A+B)/B*C
-D=A+B
-D=A+3.4
 int teste
-E=5*2^3-7
 int tes234
-print true + 32 / 32
 print C
-while(f==false){
+while(C != true){
     if(A == true){
         A=34
-        B=342
+        B=342.32
         if(true){
-            A = 32 + 43 / 0
+            A = 32 + 43
         }
-        print H
-    }else if(a == true){
-        print ads
+    }else if(A == 34){
         if(true){
-            print true
+            print C
         }
     }else{
-        a = 23 + 4.7
-        a = 4.7 + 432
         if(true){
-            print true
+            print A
         }
     }
 }
 if(true){
-    print false
+    print 24
     if(A == 432452){
-        if(b == 3124){
+        if(B == 3124){
+            int a
             print a
         }
     }
     print A
     print B
 }else{
-    print true
-    A = F + 2
+    print A + B
+    A = 4 + 2
 }

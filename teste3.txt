@@ -1,5 +1,3 @@
-if(a==true):
-	print a
-while(true):
-	if(false):
-	print abe
+int A
+A = 32 / 0
+A = 32 + 32.3

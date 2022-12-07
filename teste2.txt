@@ -1,10 +1,6 @@
-A=10
-B=20.7
-print C
-while(a=23){
-    if(A == true){
-        A=34
-        B=342
-        print H
-    }
-}
+int A
+float B
+A = 32.4
+B = A
+B = 32.3
+B = A

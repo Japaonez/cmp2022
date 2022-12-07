@@ -29,7 +29,7 @@ bool simbolo_existe(char *nome);
 void debug();
 
 struct noh {
-    int id, childcount, intv;
+    int id, childcount, intv, linha, coluna;
     enum noh_type type;
     double dblv;
     char *name;
@@ -57,7 +57,8 @@ void check_variable(noh **root, noh *no);
 
 // simbolo *simbolo_erro(char *nome, int token);
 void simbolo_erro(char *nome, int token, int n);
-simbolo *buscar_simbolo(noh *no);
+// simbolo *buscar_simbolo(noh *no);
+simbolo *buscar_simbolo(char *nome);
 void linha_coluna(simbolo *s);
 int pegar_linha();
 int pegar_coluna();

@@ -35,6 +35,7 @@ program : stmts {
 					//chamada da arvore abstrata
 					//chamada da verificação semântica
 					visitor_leaf_first(&program, check_declared_vars);
+						visitor_leaf_first(&program, check_variable);
 
 					//chamada da geração de código
 				}
@@ -55,6 +56,8 @@ stmts : stmts stmt	{
 
 stmt : atribuicao	{
 						$$ = $1;
+											
+						// visitor_leaf_first(&$$, check_variable);
 					}
 	 | TOK_PRINT aritmetica	{
 								$$ = create_noh(PRINT, 1);
@@ -172,7 +175,6 @@ atribuicao : TOK_INT TOK_IDENT {
 
 											visitor_leaf_first(&$$, check_division_zero);
 											visitor_leaf_first(&$$, check_type_incompatible);
-											visitor_leaf_first(&$$, check_variable);
 										}
 		   ;
 
